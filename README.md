@@ -167,7 +167,7 @@ There are next parameters for the `schedule` procedure:
 | period    | String | Yes      | Cron string for periodically running archiving procedure. Example: `0 0 0/1 * * ?`                           |
 | storageId | String | Yes      | Storage identifier for archiving stream, for example `"graylog"` to manage directory for saving              |
 
-More about CRON format: [java-cron-expression](https://www.javatpoint.com/java-cron-expression)
+More about CRON format: [java-cron-expression](https://docs.oracle.com/cd/E12058_01/doc/doc.1014/e12030/cron_expressions.htm)
 
 ## Examples
 
