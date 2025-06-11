@@ -4,20 +4,28 @@
 # The workflow will trigger on pushes into branches different from main and release
 # Please make sure that the version in the pom.xml file has the SNAPSHOT postfix
 
-name: Maven GitHub deploy snapshot
+name: Maven build
 
 on:
+  pull_request:
+    branches:
+    - '**'
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+      - ".github/**"
   push:
     branches-ignore:
-    - "main"
-    - "**release*"
-    - "prettier/**"
-    - "dependabot/**"
+      - "main"
+      - "**release*"
+      - "prettier/**"
+      - "dependabot/**"
     paths-ignore:
-    - "docs/**"
-    - "README.md"
-    - ".github/**"
+      - "docs/**"
+      - "*.md"
+      - ".github/**"
   workflow_dispatch: {}
+
 permissions:
   packages: write
   contents: read
