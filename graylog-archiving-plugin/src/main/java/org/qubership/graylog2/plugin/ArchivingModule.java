@@ -17,7 +17,7 @@ import org.graylog2.plugin.PluginModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
-import software.amazon.awssdk.auth.signer.Aws4Signer;
+import software.amazon.awssdk.http.auth.aws.signer.AwsV4HttpSigner;
 import software.amazon.awssdk.regions.Region;
 
 import java.util.Collections;
@@ -46,7 +46,7 @@ public class ArchivingModule extends PluginModule {
         } else {
             HttpRequestInterceptor interceptor = new AwsRequestSigningApacheInterceptor(
                     ELASTICSEARCH_SERVICE,
-                    Aws4Signer.create(),
+                    AwsV4HttpSigner.create(),
                     EnvironmentVariableCredentialsProvider.create(),
                     Region.US_EAST_1
             );

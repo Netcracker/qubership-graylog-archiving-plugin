@@ -7,7 +7,7 @@
     <groupId>org.qubership.graylog2.plugin</groupId>
     <artifactId>graylog-archiving-plugin-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <modules>
         <module>graylog-api</module>
         <module>graylog-archiving-plugin</module>
@@ -37,6 +37,7 @@
         <mongojack.version>5.0.2</mongojack.version>
         <shiro.core.version>2.0.4</shiro.core.version>
         <swagger.version>1.6.15</swagger.version>
+        <aws.sdk.version>2.31.61</aws.sdk.version>
 
         <!-- Test dependencies versions -->
         <junit.version>4.13.2</junit.version>
@@ -46,9 +47,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-bom</artifactId>
-                <version>1.12.782</version>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.sdk.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -155,8 +156,8 @@
             <version>8.5.17</version>
         </dependency>
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-s3</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
