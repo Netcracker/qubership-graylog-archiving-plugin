@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -44,7 +43,7 @@ public class ArchivingResource implements PluginRestResource {
     @Path("/process/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get information about archive process")
-    public Response getArchiveProcessInfo(@ApiParam(name = "id") @PathParam("id") @NotEmpty String id) {
+    public Response getArchiveProcessInfo(@ApiParam(name = "id") @PathParam("id") @NotNull String id) {
         ArchiveInfo archiveProcessInfo = archivingService.getArchiveProcessInfo(id);
         if (archiveProcessInfo == null) {
             return Response.serverError().entity("Archive process is not found!").build();
@@ -65,7 +64,7 @@ public class ArchivingResource implements PluginRestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Unschedule archiving job")
-    public Response unschedule(@ApiParam(name = "id") @PathParam("id") @NotEmpty String id) {
+    public Response unschedule(@ApiParam(name = "id") @PathParam("id") @NotNull String id) {
         try {
             return Response.ok(archivingService.unschedule(id)).build();
         } catch (RuntimeException | SchedulerException exception) {
@@ -156,7 +155,7 @@ public class ArchivingResource implements PluginRestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Get information about the archive")
-    public Response getArchive(@ApiParam(name = "archiveName") @PathParam("archiveName") @NotEmpty String archiveName) {
+    public Response getArchive(@ApiParam(name = "archiveName") @PathParam("archiveName") @NotNull String archiveName) {
         try {
             return Response.ok(archivingService.readInfoFile(archiveName)).build();
         } catch (Exception e) {
@@ -170,7 +169,7 @@ public class ArchivingResource implements PluginRestResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Restore the archive")
-    public Response restoreArchive(@ApiParam(name = "archiveName") @PathParam("archiveName") @NotEmpty String archiveName, @NotNull String jsonData) {
+    public Response restoreArchive(@ApiParam(name = "archiveName") @PathParam("archiveName") @NotNull String archiveName, @NotNull String jsonData) {
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
             String stream = archivingService.parametersProcessor.getString(jsonObject, "storageId");
@@ -188,7 +187,7 @@ public class ArchivingResource implements PluginRestResource {
     @Path("/{stream}/{archiveName}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Delete archive")
-    public Response deleteArchive(@ApiParam(name = "stream") @PathParam("stream") @NotEmpty String stream, @ApiParam(name = "archiveName") @PathParam("archiveName") @NotEmpty String archiveName) {
+    public Response deleteArchive(@ApiParam(name = "stream") @PathParam("stream") @NotNull String stream, @ApiParam(name = "archiveName") @PathParam("archiveName") @NotNull String archiveName) {
         try {
             return Response.ok(archivingService.delete(stream, archiveName)).build();
         } catch (Exception e) {

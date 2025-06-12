@@ -25,7 +25,7 @@ import org.graylog2.plugin.streams.Stream;
 import org.graylog2.rest.resources.streams.rules.requests.CreateStreamRuleRequest;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +59,7 @@ public abstract class CreateStreamRequest {
     public abstract String indexSetId();
 
     @JsonCreator
-    public static CreateStreamRequest create(@JsonProperty("title") @NotEmpty String title,
+    public static CreateStreamRequest create(@JsonProperty("title") @NotNull String title,
                                              @JsonProperty("description") @Nullable String description,
                                              @JsonProperty("rules") @Nullable List<CreateStreamRuleRequest> rules,
                                              @JsonProperty("content_pack") @Nullable String contentPack,

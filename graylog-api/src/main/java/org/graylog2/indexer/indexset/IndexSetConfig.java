@@ -32,7 +32,6 @@ import org.mongojack.ObjectId;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.ZonedDateTime;
@@ -67,7 +66,7 @@ public abstract class IndexSetConfig implements Comparable<IndexSetConfig> {
     public abstract String id();
 
     @JsonProperty("title")
-    @NotBlank
+    @NotNull
     public abstract String title();
 
     @JsonProperty("description")
@@ -78,7 +77,7 @@ public abstract class IndexSetConfig implements Comparable<IndexSetConfig> {
     public abstract boolean isWritable();
 
     @JsonProperty(FIELD_INDEX_PREFIX)
-    @NotBlank
+    @NotNull
     @Pattern(regexp = INDEX_PREFIX_REGEX)
     public abstract String indexPrefix();
 
@@ -119,15 +118,15 @@ public abstract class IndexSetConfig implements Comparable<IndexSetConfig> {
     public abstract ZonedDateTime creationDate();
 
     @JsonProperty("index_analyzer")
-    @NotBlank
+    @NotNull
     public abstract String indexAnalyzer();
 
     @JsonProperty("index_template_name")
-    @NotBlank
+    @NotNull
     public abstract String indexTemplateName();
 
     @JsonProperty(FIELD_INDEX_TEMPLATE_TYPE)
-    @NotBlank
+    @NotNull
     public abstract Optional<TemplateType> indexTemplateType();
 
     @JsonProperty("index_optimization_max_num_segments")
@@ -142,7 +141,7 @@ public abstract class IndexSetConfig implements Comparable<IndexSetConfig> {
 
     @JsonCreator
     public static IndexSetConfig create(@Id @ObjectId @JsonProperty("_id") @Nullable String id,
-                                        @JsonProperty("title") @NotBlank String title,
+                                        @JsonProperty("title") @NotNull String title,
                                         @JsonProperty("description") @Nullable String description,
                                         @JsonProperty("writable") @Nullable Boolean isWritable,
                                         @JsonProperty(FIELD_INDEX_PREFIX) @Pattern(regexp = INDEX_PREFIX_REGEX) String indexPrefix,
