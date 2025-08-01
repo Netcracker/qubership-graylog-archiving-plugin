@@ -29,13 +29,13 @@
         <gson.version>2.13.1</gson.version>
         <guava.version>33.4.8-jre</guava.version>
         <httpclient.version>4.5.14</httpclient.version>
-        <jackson.databind.version>2.19.1</jackson.databind.version>
-        <jackson.version>2.19.1</jackson.version>
+        <jackson.databind.version>2.19.2</jackson.databind.version>
+        <jackson.version>2.19.2</jackson.version>
         <jakarta.validation.version>3.1.1</jakarta.validation.version>
         <json.simple.version>1.1.1</json.simple.version>
         <json.version>20250517</json.version>
-        <mongojack.version>5.0.2</mongojack.version>
-        <shiro.core.version>2.0.4</shiro.core.version>
+        <mongojack.version>5.0.3</mongojack.version>
+        <shiro.core.version>2.0.5</shiro.core.version>
         <swagger.version>1.6.16</swagger.version>
         <aws.sdk.version>2.31.74</aws.sdk.version>
 
