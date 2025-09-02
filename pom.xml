@@ -34,8 +34,8 @@
         <jakarta.validation.version>3.1.1</jakarta.validation.version>
         <json.simple.version>1.1.1</json.simple.version>
         <json.version>20250517</json.version>
-        <mongojack.version>5.0.2</mongojack.version>
-        <shiro.core.version>2.0.4</shiro.core.version>
+        <mongojack.version>5.0.3</mongojack.version>
+        <shiro.core.version>2.0.5</shiro.core.version>
         <swagger.version>1.6.16</swagger.version>
         <aws.sdk.version>2.33.0</aws.sdk.version>
 
