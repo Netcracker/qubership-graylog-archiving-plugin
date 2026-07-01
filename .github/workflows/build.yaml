@@ -32,7 +32,7 @@ permissions:
 
 jobs:
   mvn-snapshot-deploy:
-    uses: netcracker/qubership-workflow-hub/.github/workflows/re-maven-snapshot-deploy.yaml@cabbb90e9471163cfac84bd50ff0296b2803b44c # v2.3.0
+    uses: netcracker/qubership-workflow-hub/.github/workflows/re-maven-snapshot-deploy.yaml@8c6dbeb901920bae9f40d7d7b646d8d9127e1ce7 # v2.4.0
     with:
       java-version: "21"
       maven-version: "3.9.10"
