@@ -37,7 +37,7 @@
         <mongojack.version>6.0.0</mongojack.version>
         <shiro.core.version>2.2.0</shiro.core.version>
         <swagger.version>1.6.16</swagger.version>
-        <aws.sdk.version>2.46.0</aws.sdk.version>
+        <aws.sdk.version>2.46.19</aws.sdk.version>
 
         <!-- Test dependencies versions -->
         <junit.version>4.13.2</junit.version>
@@ -153,7 +153,7 @@
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>9.0.1</version>
+            <version>9.0.3</version>
         </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
