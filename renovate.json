@@ -1,59 +1,41 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "schedule": [
-    "* * 1 * *"
-  ],
+  "extends": ["config:recommended"],
+  "schedule": ["* * 1 * *"],
   "prConcurrentLimit": 20,
   "prHourlyLimit": 0,
   "github-actions": {
-    "fileMatch": [
-      "^\\.github/workflows/[^/]+\\.ya?ml$"
-    ]
+    "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"]
   },
   "packageRules": [
     {
-      "matchManagers": [
-        "maven"
-      ],
+      "matchManagers": ["maven"],
       "matchFileNames": [
         "pom.xml",
         "graylog-api/**",
         "graylog-archiving-plugin/**"
       ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
+      "matchUpdateTypes": ["patch"],
       "groupName": "patch"
     },
     {
-      "matchManagers": [
-        "maven"
-      ],
+      "matchManagers": ["maven"],
       "matchFileNames": [
         "pom.xml",
         "graylog-api/**",
         "graylog-archiving-plugin/**"
       ],
-      "matchUpdateTypes": [
-        "minor"
-      ],
+      "matchUpdateTypes": ["minor"],
       "groupName": "minor"
     },
     {
-      "matchManagers": [
-        "maven"
-      ],
+      "matchManagers": ["maven"],
       "matchFileNames": [
         "pom.xml",
         "graylog-api/**",
         "graylog-archiving-plugin/**"
       ],
-      "matchUpdateTypes": [
-        "major"
-      ],
+      "matchUpdateTypes": ["major"],
       "groupName": "major"
     }
   ]
