@@ -1,13 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "schedule": ["* * 1 * *"],
+  "extends": [
+    "github>Netcracker/renovate-config:base",
+    "github>Netcracker/renovate-config:github-actions",
+    "github>Netcracker/renovate-config:netcracker-dependencies"
+  ],
   "prConcurrentLimit": 20,
   "prHourlyLimit": 0,
   "github-actions": {
     "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"]
   },
   "packageRules": [
+    {
+      "description": "Ignore the repository-local Graylog API module",
+      "matchManagers": ["maven"],
+      "matchPackageNames": ["org.qubership.graylog2.plugin:graylog-api"],
+      "enabled": false
+    },
     {
       "matchManagers": ["maven"],
       "matchFileNames": [
