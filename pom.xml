@@ -37,7 +37,7 @@
         <mongojack.version>6.0.0</mongojack.version>
         <shiro.core.version>3.0.0</shiro.core.version>
         <swagger.version>1.6.16</swagger.version>
-        <aws.sdk.version>2.51.3</aws.sdk.version>
+        <aws.sdk.version>2.53.1</aws.sdk.version>
 
         <!-- Test dependencies versions -->
         <junit.version>4.13.2</junit.version>
