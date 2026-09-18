@@ -10,9 +10,6 @@ on:
   pull_request:
     branches:
     - '**'
-    paths-ignore:
-      - "docs/**"
-      - "*.md"
   push:
     branches-ignore:
       - "main"
@@ -31,7 +28,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect relevant changes
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      maven: ${{ steps.filter.outputs.maven }}
+    steps:
+      - name: Detect Maven paths
+        id: filter
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          filters: |
+            maven:
+              - '**'
+              - '!docs/**'
+              - '!*.md'
+
   mvn-snapshot-deploy:
+    needs: [changes]
+    if: >-
+      always() &&
+      (
+        github.event_name != 'pull_request' ||
+        (needs.changes.result == 'success' && needs.changes.outputs.maven != 'false')
+      )
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -59,3 +84,17 @@ jobs:
           maven-token: ${{ github.token }}
           gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+
+  ci_gate:
+    name: CI Gate
+    needs: [changes, mvn-snapshot-deploy]
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require validation when applicable
+        if: >-
+          needs.changes.result != 'success' ||
+          (needs.changes.outputs.maven != 'false' && needs.mvn-snapshot-deploy.result != 'success')
+        run: exit 1
