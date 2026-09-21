@@ -1,8 +1,6 @@
 ---
-# The workflow to deploy snapshot artifact versions to GitHub packages
-# Fill free to adjust java version and additional mvn command-line parameters
-# The workflow will trigger on pushes into branches different from main and release
-# Please make sure that the version in the pom.xml file has the SNAPSHOT postfix
+# Pull-request Maven validation. Snapshot deploy to GitHub Packages stays on
+# .github/workflows/maven-snapshot.yaml so CI Gate never reports from a push run.
 
 name: Maven build
 
@@ -10,19 +8,6 @@ on:
   pull_request:
     branches:
     - '**'
-    paths-ignore:
-      - "docs/**"
-      - "*.md"
-  push:
-    branches-ignore:
-      - "main"
-      - "**release*"
-      - "prettier/**"
-      - "dependabot/**"
-    paths-ignore:
-      - "docs/**"
-      - "*.md"
-  workflow_dispatch: {}
 
 permissions: {}
 
@@ -31,11 +16,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect relevant changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      maven: ${{ steps.filter.outputs.maven }}
+    steps:
+      - name: Detect Maven paths
+        id: filter
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          filters: |
+            maven:
+              - '**'
+              - '!docs/**'
+              - '!*.md'
+
   mvn-snapshot-deploy:
+    needs: [changes]
+    if: needs.changes.outputs.maven != 'false'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -47,15 +53,21 @@ jobs:
         with:
           java-version: "21"
           maven-version: "3.9.10"
-          maven-command: ${{ github.event_name == 'pull_request' && 'install' || 'deploy' }}
-          additional-mvn-args: >-
-            ${{
-              github.event_name == 'pull_request' &&
-              '' ||
-              '-DaltDeploymentRepository=github::https://maven.pkg.github.com/Netcracker/qubership-graylog-archiving-plugin'
-            }}
+          maven-command: install
           target-store: "github"
           maven-username: ${{ github.actor }}
           maven-token: ${{ github.token }}
-          gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+
+  ci_gate:
+    name: CI Gate
+    needs: [changes, mvn-snapshot-deploy]
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require validation when applicable
+        if: >-
+          needs.changes.result != 'success' ||
+          (needs.changes.outputs.maven != 'false' && needs.mvn-snapshot-deploy.result != 'success')
+        run: exit 1

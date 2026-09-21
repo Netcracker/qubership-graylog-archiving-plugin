@@ -1,6 +1,6 @@
 ---
 # This workflow executes several linters on changed files based on languages used in your code base whenever
-# you push a code or open a pull request.
+# you open a pull request.
 #
 # You can adjust the behavior by modifying this file.
 # For more information, see:
@@ -12,9 +12,6 @@
 name: Lint Code Base
 
 on:
-  push:
-    branches:
-      - '**'
   pull_request:
     branches:
       - '**'
@@ -96,3 +93,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BRANCH: ${{ github.event.pull_request.base.ref || github.event.push.ref }}
 
+  lint-gate:
+    name: Lint Gate
+    needs: [prepare-configs, run-lint]
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require lint validation
+        if: >-
+          needs.prepare-configs.result != 'success' ||
+          needs.run-lint.result != 'success'
+        run: exit 1
