@@ -7,6 +7,15 @@
 name: Maven snapshot deploy
 
 on:
+  push:
+    branches-ignore:
+      - "main"
+      - "**release*"
+      - "prettier/**"
+      - "dependabot/**"
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
   workflow_dispatch: {}
 
 permissions: {}
